@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>e-sanity – Test Landing Page</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050507;
+    --ink: #f3f1ec;
+    --muted: #9b98a6;
+    --pink: #ff3ea5;
+    --cyan: #2ef2e4;
+    --lime: #c6ff3d;
+    --violet: #8b5cff;
+    --card: rgba(255,255,255,0.045);
+    --line: rgba(255,255,255,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "DM Sans", system-ui, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Funky background ---------- */
+  .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .blob {
+    position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55;
+    animation: drift 22s ease-in-out infinite alternate;
+  }
+  .b1 { width: 46vmax; height: 46vmax; background: var(--violet); top: -18vmax; left: -14vmax; }
+  .b2 { width: 34vmax; height: 34vmax; background: var(--pink); bottom: -14vmax; right: -10vmax; animation-delay: -7s; opacity: .45; }
+  .b3 { width: 22vmax; height: 22vmax; background: var(--cyan); top: 38%; left: 62%; animation-delay: -12s; opacity: .28; }
+  @keyframes drift {
+    0%   { transform: translate(0,0) scale(1); }
+    50%  { transform: translate(6vmax, 4vmax) scale(1.12); }
+    100% { transform: translate(-4vmax, 7vmax) scale(.94); }
+  }
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%);
+  }
+  .float { position: absolute; opacity: .5; animation: bob 9s ease-in-out infinite; }
+  .float svg { display: block; }
+  .f1 { top: 12%; right: 9%; animation-delay: -1s; }
+  .f2 { top: 58%; left: 5%; animation-delay: -4s; }
+  .f3 { top: 80%; right: 14%; animation-delay: -2.5s; }
+  .f4 { top: 30%; left: 12%; animation-delay: -6s; }
+  @keyframes bob {
+    0%,100% { transform: translateY(0) rotate(-8deg); }
+    50%     { transform: translateY(-22px) rotate(6deg); }
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 56px 16px 64px; }
+
+  /* ---------- Hero ---------- */
+  header { text-align: center; margin-bottom: 56px; }
+  .pre {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    font-size: clamp(.8rem, 2.2vw, 1rem); color: var(--cyan);
+  }
+  .brand {
+    font-family: "Syne", sans-serif; font-weight: 800;
+    font-size: clamp(4.2rem, 17vw, 10rem);
+    line-height: .95; letter-spacing: -.04em;
+    margin: 10px 0 6px;
+    display: inline-flex; align-items: baseline;
+  }
+  .brand .e {
+    color: var(--bg);
+    -webkit-text-stroke: 2px var(--lime);
+    text-shadow: 0 0 24px rgba(198,255,61,.45);
+  }
+  .brand .dash { color: var(--lime); text-shadow: 0 0 24px rgba(198,255,61,.6); }
+  .brand .word {
+    background: linear-gradient(100deg, var(--pink) 0%, var(--violet) 45%, var(--cyan) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 22px rgba(255,62,165,.35));
+  }
+  .zero {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin: 4px 0 22px;
+    font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--lime); border: 1px solid rgba(198,255,61,.45);
+    padding: 6px 14px; border-radius: 999px; background: rgba(198,255,61,.07);
+  }
+  .zero .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  .sub { font-size: clamp(1.1rem, 3.2vw, 1.45rem); font-weight: 500; }
+  .with { color: var(--muted); font-style: italic; margin: 8px 0 2px; }
+  .author { font-family: "Syne", sans-serif; font-weight: 700; font-size: clamp(1.2rem, 3.6vw, 1.6rem); }
+  .tag {
+    display: inline-block; margin-top: 26px;
+    font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--bg); background: var(--pink);
+    padding: 7px 14px; border-radius: 6px; transform: rotate(-2deg);
+    box-shadow: 0 0 24px rgba(255,62,165,.45);
+  }
+
+  /* ---------- Episode list ---------- */
+  .episodes { list-style: none; display: grid; gap: 22px; }
+  .ep {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 18px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .ep h2 {
+    font-family: "Syne", sans-serif; font-weight: 700;
+    font-size: clamp(1.1rem, 3vw, 1.35rem); margin-bottom: 12px;
+    display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+  }
+  .ep .num { color: var(--cyan); font-size: .85em; }
+  .ep.main { border-left: 4px solid var(--violet); }
+
+  /* Indented supplementary episodes */
+  .supp { margin-left: clamp(18px, 6vw, 56px); position: relative; }
+  .supp::before {
+    content: ""; position: absolute;
+    left: clamp(-16px, -4vw, -32px); top: -22px; bottom: 50%;
+    width: clamp(12px, 3.5vw, 24px);
+    border-left: 2px dashed rgba(46,242,228,.5);
+    border-bottom: 2px dashed rgba(46,242,228,.5);
+    border-bottom-left-radius: 10px;
+  }
+  .supp .label {
+    font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--bg); background: var(--cyan); padding: 3px 8px; border-radius: 4px;
+  }
+  .supp h2 { font-size: clamp(1rem, 2.7vw, 1.2rem); }
+
+  /* Click-to-play video */
+  .video {
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    border-radius: 12px; overflow: hidden; background: #000;
+    border: 0; padding: 0; cursor: pointer; display: block;
+  }
+  .video img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease, opacity .3s; opacity: .85; }
+  .video:hover img, .video:focus-visible img { transform: scale(1.03); opacity: 1; }
+  .video .play {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    width: 74px; height: 74px; border-radius: 50%;
+    background: var(--pink); display: grid; place-items: center;
+    box-shadow: 0 0 0 8px rgba(255,62,165,.25), 0 0 40px rgba(255,62,165,.6);
+    transition: transform .2s ease;
+  }
+  .video:hover .play { transform: translate(-50%,-50%) scale(1.08); }
+  .video:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .yt { display: inline-block; margin-top: 10px; font-size: .85rem; color: var(--muted); text-decoration: none; }
+  .yt:hover { color: var(--cyan); }
+
+  footer { text-align: center; margin-top: 56px; color: var(--muted); font-size: .85rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob, .float, .zero .dot { animation: none; }
+  }
+  @media (max-width: 520px) {
+    .float { display: none; }
+    .ep { padding: 14px; }
+    .video .play { width: 60px; height: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="grid"></div>
+
+  <!-- Floating envelope -->
+  <div class="float f1"><svg width="70" height="52" viewBox="0 0 70 52" fill="none"><rect x="2" y="2" width="66" height="48" rx="6" stroke="#2ef2e4" stroke-width="3"/><path d="M4 6l31 24L66 6" stroke="#2ef2e4" stroke-width="3" stroke-linejoin="round"/></svg></div>
+  <!-- Floating folder -->
+  <div class="float f2"><svg width="74" height="58" viewBox="0 0 74 58" fill="none"><path d="M3 10a6 6 0 016-6h17l7 8h32a6 6 0 016 6v31a6 6 0 01-6 6H9a6 6 0 01-6-6V10z" stroke="#c6ff3d" stroke-width="3" stroke-linejoin="round"/></svg></div>
+  <!-- Floating document -->
+  <div class="float f3"><svg width="52" height="66" viewBox="0 0 52 66" fill="none"><path d="M4 6a4 4 0 014-4h26l14 14v42a4 4 0 01-4 4H8a4 4 0 01-4-4V6z" stroke="#ff3ea5" stroke-width="3" stroke-linejoin="round"/><path d="M34 2v14h14M13 30h26M13 40h26M13 50h16" stroke="#ff3ea5" stroke-width="3" stroke-linecap="round"/></svg></div>
+  <!-- Floating zero -->
+  <div class="float f4"><svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="25" stroke="#8b5cff" stroke-width="3"/><text x="28" y="37" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="26" fill="#8b5cff">0</text></svg></div>
+</div>
+
+<main class="wrap">
+  <header>
+    <p class="pre">The in-box zero path to</p>
+    <h1 class="brand" aria-label="e-sanity"><span class="e">e</span><span class="dash">-</span><span class="word">sanity</span></h1>
+    <div><span class="zero"><span class="dot"></span>Inbox: 0</span></div>
+    <p class="sub">Managing your personal electronic records</p>
+    <p class="with">with</p>
+    <p class="author">Dr Mattèo Balogh</p>
+    <span class="tag">Temporary test landing page</span>
+  </header>
+
+  <ol class="episodes">
+    <li class="ep main">
+      <h2>Introduction</h2>
+      <button class="video" data-id="H93ZQt1D6xA" aria-label="Play: Introduction"></button>
+      <a class="yt" href="https://youtu.be/H93ZQt1D6xA" target="_blank" rel="noopener">Open on YouTube ↗</a>
+    </li>
+
+    <li class="ep supp">
+      <h2><span class="label">Supplementary</span> The legal validity of electronic records</h2>
+      <button class="video" data-id="UapZJCuxWf0" aria-label="Play: The legal validity of electronic records"></button>
+      <a class="yt" href="https://youtu.be/UapZJCuxWf0" target="_blank" rel="noopener">Open on YouTube ↗</a>
+    </li>
+
+    <li class="ep supp">
+      <h2><span class="label">Supplementary</span> Going paperless</h2>
+      <button class="video" data-id="OzgFTcpkooU" aria-label="Play: Going paperless"></button>
+      <a class="yt" href="https://youtu.be/OzgFTcpkooU" target="_blank" rel="noopener">Open on YouTube ↗</a>
+    </li>
+
+    <li class="ep main">
+      <h2><span class="num">Episode 1</span> De-cluttering</h2>
+      <button class="video" data-id="7k7Yp0Q1-n0" aria-label="Play: Episode 1, De-cluttering"></button>
+      <a class="yt" href="https://youtu.be/7k7Yp0Q1-n0" target="_blank" rel="noopener">Open on YouTube ↗</a>
+    </li>
+
+    <li class="ep main">
+      <h2><span class="num">Episode 2</span> Unsubscribing</h2>
+      <button class="video" data-id="UbZmCzkBs1U" aria-label="Play: Episode 2, Unsubscribing"></button>
+      <a class="yt" href="https://youtu.be/UbZmCzkBs1U" target="_blank" rel="noopener">Open on YouTube ↗</a>
+    </li>
+  </ol>
+
+  <footer>Draft for review only – please don't share this page.</footer>
+</main>
+
+<script>
+  // Show a thumbnail with a play button; load the YouTube player only when clicked.
+  document.querySelectorAll('.video').forEach(function (btn) {
+    var id = btn.dataset.id;
+    btn.innerHTML =
+      '<img src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy">' +
+      '<span class="play"><svg width="26" height="30" viewBox="0 0 26 30"><path d="M2 2l22 13L2 28z" fill="#050507"/></svg></span>';
+    btn.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      f.title = btn.getAttribute('aria-label').replace('Play: ', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+      var holder = document.createElement('div');
+      holder.className = 'video';
+      holder.appendChild(f);
+      btn.replaceWith(holder);
+    }, { once: true });
+  });
+</script>
+</body>
+</html>
