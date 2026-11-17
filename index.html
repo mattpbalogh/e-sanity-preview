@@ -252,7 +252,7 @@
       '<span class="play"><svg width="26" height="30" viewBox="0 0 26 30"><path d="M2 2l22 13L2 28z" fill="#050507"/></svg></span>';
     btn.addEventListener('click', function () {
       var f = document.createElement('iframe');
-      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&cc_load_policy=0&hl=en';
       f.title = btn.getAttribute('aria-label').replace('Play: ', '');
       f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
       f.allowFullscreen = true;
