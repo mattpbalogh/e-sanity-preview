@@ -251,17 +251,60 @@
       '<img src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy">' +
       '<span class="play"><svg width="26" height="30" viewBox="0 0 26 30"><path d="M2 2l22 13L2 28z" fill="#050507"/></svg></span>';
     btn.addEventListener('click', function () {
-      var f = document.createElement('iframe');
-      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&cc_load_policy=0&hl=en';
-      f.title = btn.getAttribute('aria-label').replace('Play: ', '');
-      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      f.allowFullscreen = true;
       var holder = document.createElement('div');
       holder.className = 'video';
-      holder.appendChild(f);
+      var target = document.createElement('div');
+      holder.appendChild(target);
       btn.replaceWith(holder);
+      whenYouTubeReady(function () { makePlayer(target, id); });
     }, { once: true });
   });
+
+  // ---- YouTube player with captions forced off ----
+  var ytReady = false, ytQueue = [];
+  function whenYouTubeReady(fn) {
+    if (ytReady) { fn(); return; }
+    ytQueue.push(fn);
+    if (!document.getElementById('yt-api')) {
+      var s = document.createElement('script');
+      s.id = 'yt-api';
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+    }
+  }
+  window.onYouTubeIframeAPIReady = function () {
+    ytReady = true;
+    ytQueue.forEach(function (fn) { fn(); });
+    ytQueue = [];
+  };
+
+  function captionsOff(p) {
+    try { p.unloadModule('captions'); } catch (e) {}
+    try { p.unloadModule('cc'); } catch (e) {}
+    try { p.setOption('captions', 'track', {}); } catch (e) {}
+  }
+
+  function makePlayer(el, id) {
+    new YT.Player(el, {
+      host: 'https://www.youtube-nocookie.com',
+      videoId: id,
+      playerVars: {
+        autoplay: 1, rel: 0, playsinline: 1,
+        cc_load_policy: 0, iv_load_policy: 3, hl: 'en'
+      },
+      events: {
+        onReady: function (e) {
+          captionsOff(e.target);
+          e.target.playVideo();
+        },
+        // Switch captions off again whenever playback starts or resumes
+        onStateChange: function (e) {
+          if (e.data === YT.PlayerState.PLAYING) captionsOff(e.target);
+        },
+        onApiChange: function (e) { captionsOff(e.target); }
+      }
+    });
+  }
 </script>
 </body>
 </html>
